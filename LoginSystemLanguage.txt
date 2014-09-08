@@ -1,0 +1,25 @@
+<se>
+	LoginIssues=Felaktiga inloggningsuppgifter.
+	NotLoggedIn=Ej inloggad.
+	AccessLevel=Ej behörig.
+	UnlockSequenceQuestion=Säkerhetsfråga:
+	UnlockSequenceAnswer=Svar:
+	AccountLocked=Kontot är låst.
+	IncorrectSecurityAnswer=Felaktigt svar på säkerhetsfrågan.
+	Button_Login=Logga In
+	Button_Registration=Skapa Konto
+	Input_Username=Användarnamn:
+	Input_Password=Lösenord:
+	InvalidPasswordSymbol=Ogiltiga tecken i lösenordet.
+	InvalidUsernameSymbol=Ogiltiga tecken i användarnamnet.
+	InvalidPasswordLength=För kort lösenord.
+	InvalidUsernameLength=För kort användarnamn.
+	InvalidQuestionLength=Säkerhetsfrågan är för kort.
+	InvalidAnswerLength=Säkerhetssvaret är för kort.
+	UsernameExsists=Användarnamnet finns redan.
+	Input_OldPassword=Gamla lösenordet:
+	Input_NewPassword=Nytt lösenord:
+	Input_PasswordRepeat=Upprepa lösenordet:
+	Button_ChangePassword=Byt lösenordet
+</se>
+
