@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 /**
- * LoginSystem (This DocBlock is not seen by APIGen)
+ * LoginSystem
  *
  * These classes are for Login and Registration functions. To enable an easy implementation.
  *
