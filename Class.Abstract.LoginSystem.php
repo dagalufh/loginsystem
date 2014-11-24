@@ -24,6 +24,14 @@
  * 		}
  * 
  * Changelog
+ * Version 4.0.1
+ * Started adding bootstrap js and css
+ * Usage: 
+ * 	<link rel="stylesheet" href="../loginsystem/Dependency/css/bootstrap.min.css" type="text/css" />
+ *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/jquery-1.11.1.min.js"></script>
+ *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/bootstrap.min.js"></script>
+ * Corrected an issue with output from GeneratePasswordFromForm
+ *
  * Version 4.0
  * Split the system into multiple class files.
  * Changelogs will be appearing in the relevant class files.
@@ -405,6 +413,7 @@ abstract class LoginSystem {
 			return $this->LoginSystemText[$Label]['en'];
 		} else {
 			$this->DebugMessage("Language","Unable to find the requested Label in selected(".$this->Language.")/default(en) language: " . $Label);
+			return "Label Not Found";
 		}
 	}
 	
@@ -454,9 +463,11 @@ abstract class LoginSystem {
 	public function GetUserFeedback($OutputViaEcho = false) {
 		
 		if($OutputViaEcho) {
+			$ReturnMessage = "";
 			foreach($this->LoginSystemMessage[3] as $Message) {
-				echo $Message . "<br>";	
+				$ReturnMessage .= $Message . "<br>";	
 			}
+			return $ReturnMessage;
 		} else {
 			return $this->LoginSystemMessage[3];	
 		}
@@ -682,6 +693,7 @@ abstract class LoginSystem {
 		$this->LoginSystemText['Button_ChangePassword']['en'] 		= "Change Password";
 		$this->LoginSystemText['Button_Login']['en'] 				= "Login";
 		$this->LoginSystemText['Button_PasswordRecovery']['en'] 	= "Reset Password";
+		$this->LoginSystemText['Button_Register']['en'] 			= "Create a new account";
 		$this->LoginSystemText['Button_Registration']['en'] 		= "Create Account";
 		$this->LoginSystemText['Error_Database']['en'] 				= "An error has occured with the database. Please try again later.";
 		$this->LoginSystemText['IncorrectSecurityAnswer']['en'] 	= "Incorrect answer to the security question.";

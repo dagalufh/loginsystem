@@ -21,5 +21,6 @@
 	Input_NewPassword=Nytt lösenord:
 	Input_PasswordRepeat=Upprepa lösenordet:
 	Button_ChangePassword=Byt lösenordet
+	NewPasswordUnmatched=Lösenorden stämmer inte överrens.
 </se>
 

@@ -32,37 +32,52 @@ class ChangePasswordBox extends LoginSystem {
 		// Shows the registrationbox
 
 		// Build the RegistrationBox.
-		$ChangePasswordBoxOutput['FormStart']		 		= '<form method="POST" name="LoginSystemChangePasswordForm" action="">';
-		$ChangePasswordBoxOutput['OldPassword'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="OldPassword">';
-		$ChangePasswordBoxOutput['NewPassword'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="NewPassword">';
-		$ChangePasswordBoxOutput['PasswordRepeat'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="PasswordRepeat">';
-		$ChangePasswordBoxOutput['ChangePasswordButton'] 	= '<input class="LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_ChangePassword').'" name="ChangePasswordBoxSubmit">';
-		$ChangePasswordBoxOutput['FormEnd'] 				= '</form>';
-		$ChangePasswordBoxOutput['Error']					= $this->GetUserFeedback(false);
+		$ChangePasswordBoxOutput['FormStart']		 			= '<form method="POST" name="LoginSystemChangePasswordForm" class="form-horizontal" role="form" action="">';
+		$ChangePasswordBoxOutput['OldPassword'] 				= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="OldPassword">';
+		$ChangePasswordBoxOutput['NewPassword'] 				= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="NewPassword">';
+		$ChangePasswordBoxOutput['PasswordRepeat'] 				= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="PasswordRepeat">';
+		$ChangePasswordBoxOutput['ChangePasswordButton'] 		= '<input class="btn btn-default LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_ChangePassword').'" name="ChangePasswordBoxSubmit">';
+		$ChangePasswordBoxOutput['FormEnd'] 					= '</form>';
+		$ChangePasswordBoxOutput['Error']						= $this->GetUserFeedback(false);
 
 		if ($this->AddedSecurity) {
-			$ChangePasswordBoxOutput['UnlockSequenceQuestion'] 	= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceQuestion">';
-			$ChangePasswordBoxOutput['UnlockSequenceAnswer'] 		= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
+			$ChangePasswordBoxOutput['UnlockSequenceQuestion'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceQuestion">';
+			$ChangePasswordBoxOutput['UnlockSequenceAnswer'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
 		}
 
 		if(!$Output) {
 			// Output it directly via Echo
-
-			echo "<table>";
 			echo $ChangePasswordBoxOutput['FormStart'];
-				if(isset($this->LoginSystemMessage[3])) {
-					echo "<tr><td colspan='2'>".$this->GetUserFeedback(true). "</td></tr>";
-				}
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_OldPassword')."</td><td>".$ChangePasswordBoxOutput['OldPassword'] . "</td></tr>";
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_NewPassword') ."</td><td>". $ChangePasswordBoxOutput['NewPassword'] . "</td></tr>";
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_PasswordRepeat') ."</td><td>". $ChangePasswordBoxOutput['PasswordRepeat'] . "</td></tr>";
-				if ($this->AddedSecurity) {
-					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceQuestion') ."</td><td>". $ChangePasswordBoxOutput['UnlockSequenceQuestion'] . "</td></tr>";
-					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceAnswer') ."</td><td>". $ChangePasswordBoxOutput['UnlockSequenceAnswer'] . "</td></tr>";
-				}
-				echo "<tr><td colspan='2'>".$ChangePasswordBoxOutput['ChangePasswordButton'] . "</td></tr>";
+			echo '<div class="panel panel-default">';
+				echo '<div class="panel-body">';
+					echo "<div>";
+						if(isset($this->LoginSystemMessage[3])) {
+							echo "<span id='helpBlock' class='help-block bg-danger'>" . $this->GetUserFeedback(true) . "</span>";
+						}
+					echo "</div>";
+					echo "<div class='form-group'>";
+						echo "<label for='OldPassword' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_OldPassword')."</label><div class='col-sm-10'>".$ChangePasswordBoxOutput['OldPassword'] . "</div>";
+					echo "</div>";
+					echo "<div class='form-group'>";
+						echo "<label for='NewPassword' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_NewPassword') ."</label><div class='col-sm-10'>". $ChangePasswordBoxOutput['NewPassword'] . "</div>";
+					echo "</div>";
+					echo "<div class='form-group'>";	
+						echo "<label for='PasswordRepeat' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_PasswordRepeat') ."</label><div class='col-sm-10'>". $ChangePasswordBoxOutput['PasswordRepeat'] . "</div>";
+					echo "</div>";
+						if ($this->AddedSecurity) {
+							echo "<div class='form-group'>";
+								echo "<label for='UnlockSequenceQuestion' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('UnlockSequenceQuestion') ."</label><div class='col-sm-10'>". $ChangePasswordBoxOutput['UnlockSequenceQuestion'] . "</div>";
+							echo "</div>";
+							echo "<div class='form-group'>";
+								echo "<label for='UnlockSequenceAnswer' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('UnlockSequenceAnswer') ."</label><div class='col-sm-10'>". $ChangePasswordBoxOutput['UnlockSequenceAnswer'] . "</div>";
+							echo "</div>";
+						}
+					echo "<div class='form-group'>";
+						echo "<div class='col-sm-offset-2 col-sm-10'>".$ChangePasswordBoxOutput['ChangePasswordButton'] . "</div>";
+					echo "</div>";
+				echo "</div>";
+			echo "</div>";
 			echo $ChangePasswordBoxOutput['FormEnd'];
-			echo "</table>";
 		} else {
 			// Return to caller as an array.
 			return $ChangePasswordBoxOutput;
@@ -165,7 +180,7 @@ class ChangePasswordBox extends LoginSystem {
 			try {
 				// Verify that the Submit button has been used.
 				if(!isset($_POST['ChangePasswordBoxSubmit'])) {
-					throw new exception("ChangePasswordBoxSubmit was not pressed.");
+					throw new exception("ChangePasswordBoxSubmit was not pressed.",99);
 				}
 				
 				// Did the user supply an old password?
@@ -188,37 +203,60 @@ class ChangePasswordBox extends LoginSystem {
 				
 					if(!SaltedPassword($_POST['OldPassword'],$this->SaltLength,$QueryRow['Password'])) {
 						$this->DebugMessage("ChangePassword","Supplied old passwords did not match");
-						$this->AddUserFeedback($this->GetLanguageSpecificText('OldPasswordMissmatch'));	
+						//$this->AddUserFeedback($this->GetLanguageSpecificText('OldPasswordMissmatch'));	
 						throw new exception("OldPasswordMissmatch");
-					} else {	
-						$this->DebugMessage("ChangePassword","Supplied old passwords match");
-						$EncryptedPassword = $this->GeneratePasswordFromForm($_POST['NewPassword'], $_POST['PasswordRepeat']);				
+					}
+					$this->DebugMessage("ChangePassword","Supplied old passwords match");
+					
+					if (strlen($_POST['NewPassword'])>1) {
+						$EncryptedPassword = $this->GeneratePasswordFromForm($_POST['NewPassword'], $_POST['PasswordRepeat']);
+						if($EncryptedPassword === false) {
+							throw new exception("GeneratePasswordFromForm returned false.", 99);
+						}
+						if(strlen($this->BuildQuery)>1) {
+							$this->BuildQuery .= ',';
+						}
+						$this->BuildQuery = 'Password="'.$EncryptedPassword.'"';
+					}
+					
+					// Are HigherSecurity enabled? This does not depend on passwordchange actually. You can just change your question/answer anyway.
+					if($this->AddedSecurity) {
+						if (strlen($_POST['UnlockSequenceQuestion'])>1) {
+							
+							if (strlen($_POST['UnlockSequenceQuestion']) < $this->MinimumInputFieldLength) {
+								//$this->AddUserFeedback($this->GetLanguageSpecificText('InvalidQuestionLength'));
+								throw new exception("InvalidQuestionLength");
+							}
+
+							if (strlen($_POST['UnlockSequenceAnswer']) < $this->MinimumInputFieldLength) {
+								//$this->AddUserFeedback($this->GetLanguageSpecificText('InvalidAnswerLength'));
+								throw new exception("InvalidAnswerLength");
+							}
+
+							$EncryptedSecurityAnswer = SaltedPassword($_POST['UnlockSequenceAnswer'],strlen($_POST['UnlockSequenceAnswer']));					
+							if(strlen($this->BuildQuery)>1) {
+								$this->BuildQuery .= ',';
+							}
+							$this->BuildQuery .= $this->AddedTables[2] . '="' . mysqli_real_escape_string($this->DatabaseHandle,$_POST['UnlockSequenceQuestion']).',' . $this->AddedTables[3] . '="' . mysqli_real_escape_string($this->DatabaseHandle,$EncryptedSecurityAnswer).'"';
+						}
+					}
+
+					// Are there any CustomFields?
+
+					// Update the database with the new information.
+					if(strlen($this->BuildQuery)>1) {
+						echo 'UPDATE Users SET '.$this->BuildQuery . ' WHERE UserID="'.$_SESSION[$this->Session_UserID].'"'. "<br>";
 					}
 				}
-				
-				// Are HigherSecurity enabled? This does not depend on passwordchange actually. You can just change your question/answer anyway.
-				if($this->AddedSecurity) {
-					if (strlen($_POST['UnlockSequenceQuestion']) < $this->MinimumInputFieldLength) {
-						$this->AddUserFeedback($this->GetLanguageSpecificText('InvalidQuestionLength'));
-						throw new exception("InvalidQuestionLength");
-					}
-					if (strlen($_POST['UnlockSequenceAnswer']) < $this->MinimumInputFieldLength) {
-						$this->AddUserFeedback($this->GetLanguageSpecificText('InvalidAnswerLength'));
-						throw new exception("InvalidAnswerLength");
-					}
-	
-					$EncryptedSecurityAnswer = SaltedPassword($_POST['UnlockSequenceAnswer'],strlen($_POST['UnlockSequenceAnswer']));					
-					$this->BuildQuery = ',' . $AddedTable[2] . '="' . mysqli_real_escape_string($this->DatabaseHandle,$_POST['UnlockSequenceQuestion']).',' . $AddedTable[3] . '="' . mysqli_real_escape_string($this->DatabaseHandle,$_POST['UnlockSequenceAnswer']).'"';					
-				}
-						
-				// Are there any CustomFields?
-				
-				// Update the database with the new information.
-				echo $this->BuildQuery . "<br>";
 			} catch (exception $e) {
-				echo "An exception has happened. Woho!<br>";
-				
-				echo "Exception: " . $e->getMessage() . "<br>";
+				if($e->getCode() != 99) {
+					//echo "Exception: " . $e->getMessage() . "<br>";
+					if($this->GetLanguageSpecificText($e->getMessage()) == "Label Not Found") {
+						$this->AddUserFeedback($e->getMessage());
+					} else {
+						$this->AddUserFeedback($this->GetLanguageSpecificText($e->getMessage()));
+					}
+				}
 			}
 	}
 	

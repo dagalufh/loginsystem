@@ -59,6 +59,7 @@ class RegistrationBox extends LoginSystem {
 		$RegistrationBoxOutput['FormStart']		 		= '<form method="POST" name="LoginSystemRegistrationForm" action="">';
 		$RegistrationBoxOutput['Username'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="Username">';
 		$RegistrationBoxOutput['Password'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="Password">';
+		$RegistrationBoxOutput['PasswordRepeat'] 		= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="PasswordRepeat">';
 		$RegistrationBoxOutput['RegistrationButton'] 	= '<input class="LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_Registration').'" name="RegistrationBoxSubmit">';
 		$RegistrationBoxOutput['FormEnd'] 				= '</form>';
 		$RegistrationBoxOutput['Error']					= $this->GetUserFeedback(false);
@@ -71,20 +72,23 @@ class RegistrationBox extends LoginSystem {
 		if($Output == false) {
 			// Output it directly via Echo
 
-			echo "<table>";
+			
 			echo $RegistrationBoxOutput['FormStart'];
+			echo "<table>";
 				if(isset($this->LoginSystemMessage[3])) {
-					echo "<tr><td colspan='2'>".$this->GetUserFeedback(true). "</td></tr>";
+					echo "<tr><td colspan='2'><p  class='bg-danger'>".$this->GetUserFeedback(true). "</p></td></tr>";
 				}
 				echo "<tr><td>".$this->GetLanguageSpecificText('Input_Username')."</td><td>".$RegistrationBoxOutput['Username'] . "</td></tr>";
 				echo "<tr><td>".$this->GetLanguageSpecificText('Input_Password') ."</td><td>". $RegistrationBoxOutput['Password'] . "</td></tr>";
+				echo "<tr><td>".$this->GetLanguageSpecificText('Input_PasswordRepeat') ."</td><td>". $RegistrationBoxOutput['PasswordRepeat'] . "</td></tr>";
 				if ($this->AddedSecurity) {
 					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceQuestion') ."</td><td>". $RegistrationBoxOutput['UnlockSequenceQuestion'] . "</td></tr>";
 					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceAnswer') ."</td><td>". $RegistrationBoxOutput['UnlockSequenceAnswer'] . "</td></tr>";
 				}
 				echo "<tr><td colspan='2'>".$RegistrationBoxOutput['RegistrationButton'] . "</td></tr>";
-			echo $RegistrationBoxOutput['FormEnd'];
 			echo "</table>";
+			echo $RegistrationBoxOutput['FormEnd'];
+		
 		} else {
 			// Return to caller as an array.
 			return $RegistrationBoxOutput;
@@ -168,18 +172,22 @@ class RegistrationBox extends LoginSystem {
 		}
 
 
-		$EncryptedPassword = $this->GeneratePassword($_POST['Password']);
-		echo 'INSERT INTO Users(Username,Password'.$this->AppendTables.$this->CustomTables.') VALUES("'.mysqli_real_escape_string($this->DatabaseHandle,$_POST['Username']).'","'.$EncryptedPassword.'"'.$this->AppendValues . $this->CustomValues.')';
-		if(mysqli_query($this->DatabaseHandle,'INSERT INTO Users(Username,Password'.$this->AppendTables.$this->CustomTables.') VALUES("'.mysqli_real_escape_string($this->DatabaseHandle,$_POST['Username']).'","'.$EncryptedPassword.'"'.$this->AppendValues . $this->CustomValues.')')) {
-			$this->NewUser = mysqli_insert_id($this->DatabaseHandle);
-			$this->DebugMessage("Registration", "[Success] Registration was successfull and a user has been created with ID: " . $this->NewUser);
+		$EncryptedPassword = $this->GeneratePasswordFromForm($_POST['Password'], $_POST['PasswordRepeat']);
+		if($EncryptedPassword !== false) {
+			echo 'INSERT INTO Users(Username,Password'.$this->AppendTables.$this->CustomTables.') VALUES("'.mysqli_real_escape_string($this->DatabaseHandle,$_POST['Username']).'","'.$EncryptedPassword.'"'.$this->AppendValues . $this->CustomValues.')';
+			if(mysqli_query($this->DatabaseHandle,'INSERT INTO Users(Username,Password'.$this->AppendTables.$this->CustomTables.') VALUES("'.mysqli_real_escape_string($this->DatabaseHandle,$_POST['Username']).'","'.$EncryptedPassword.'"'.$this->AppendValues . $this->CustomValues.')')) {
+				$this->NewUser = mysqli_insert_id($this->DatabaseHandle);
+				$this->DebugMessage("Registration", "[Success] Registration was successfull and a user has been created with ID: " . $this->NewUser);
+			} else {
+				$this->DebugMessage("MySQLi","An error has occured while creating user: " . mysqli_error($this->DatabaseHandle));
+				return false;
+			}
+
+			$this->SuccessfullRegistration();
+			return true;
 		} else {
-			$this->DebugMessage("MySQLi","An error has occured while creating user: " . mysqli_error($this->DatabaseHandle));
 			return false;
 		}
-
-		$this->SuccessfullRegistration();
-		return true;
 	}
 
 	/**************************************************************************************************************************

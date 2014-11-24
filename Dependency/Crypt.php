@@ -9,7 +9,7 @@
 	v3: Array sparar saltet, för varje uppkomst av samma värde i saltet, plussa med 1 på antal. Detta ökar spridningen på saltet.
 */
 
-include_once($_SERVER['DOCUMENT_ROOT'] . "/modules/LogFunctionUsage.php");
+//include_once($_SERVER['DOCUMENT_ROOT'] . "/modules/LogFunctionUsage.php");
 function NumberInHexAlphabet($Letter) {
 $Letter = strtolower($Letter);
 $Alphabet = array("a"=>"1","b"=>"2","c"=>"3","d"=>"4","e"=>"5","f"=>"6","0"=>"7","1"=>"8","2"=>"9","3"=>"10","4"=>"11","5"=>"12","6"=>"13","7"=>"14","8"=>"15","9"=>"16");
@@ -21,7 +21,7 @@ return $Alphabet[$Letter];
 
 function SaltedPassword($PasswordFromUser,$SaltLength,$PasswordFromDatabase = "",$NumberOfTimes = 2) {
 	//echo "SaltLength: " . $SaltLength . "<br>";
-	LogFunctionUsage(dirname(__FILE__) . '/' . __FUNCTION__ . ".log");
+	//LogFunctionUsage(dirname(__FILE__) . '/' . __FUNCTION__ . ".log");
 	if(!is_numeric($SaltLength)) {
 		$SaltLength=strlen($SaltLength);
 	}

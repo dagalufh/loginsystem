@@ -35,6 +35,12 @@ class LoginBox extends LoginSystem {
 	 * @var int $LoginThreshold
 	 */
 	protected $LoginThreshold = 3;
+	
+	/**
+	 * Toggle for ShowBox to either show a request for securitysettings or regular loginbox
+	 * @var boolean $RequestSecurityInformation
+	 */
+	protected $RequestSecurityInformation = false;
 
 	/**
 	 * Contains the question needed to unlock the account.
@@ -49,44 +55,63 @@ class LoginBox extends LoginSystem {
 	 * @param boolean $Output toggles how the output should be displayed.
 	 * @return array
 	 */
-	public function ShowBox($Output = false) {
-		
-		// Build the LoginBox.
-		$LoginBoxOutput['FormStart'] 	= '<form method="POST" name="LoginSystemLoginForm" action="">';
-		$LoginBoxOutput['Username'] 	= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="Username">';
-		$LoginBoxOutput['Password'] 	= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="Password">';
-		$LoginBoxOutput['LoginButton'] 	= '<input class="LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_Login').'" name="LoginBoxSubmit">';
-		$LoginBoxOutput['FormEnd'] 		= '</form>';
-		$LoginBoxOutput['Error']		= $this->GetUserFeedback(false);
-
-		if ($this->AccountLocked) {
-			$LoginBoxOutput['UnlockSequenceQuestion'] 	= $this->GetLanguageSpecificText('UnlockSequenceQuestion') . ':' . $this->UnlockQuestion;
-			$LoginBoxOutput['UnlockSequenceAnswer'] 	= $this->GetLanguageSpecificText('UnlockSequenceAnswer') . ': <input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
-		}
-
-		if($Output == false) {
-			// Output it directly via Echo
-			echo "<table>";
-			if(isset($this->LoginSystemMessage[3])) {
-				echo "<tr><td>" . $this->GetUserFeedback(true) . "</td></tr>";
-				}
-			echo $LoginBoxOutput['FormStart'];
-				echo "<tr><td>" . $this->GetLanguageSpecificText("Input_Username") . "</td><td>" . $LoginBoxOutput['Username'] . "</td></tr>";
-				echo "<tr><td>" . $this->GetLanguageSpecificText("Input_Password") . "</td><td>" . $LoginBoxOutput['Password'] . "</td></tr>";
-				if ($this->AccountLocked) {
-					echo "<br>";
-					echo "<tr><td>" . $LoginBoxOutput['UnlockSequenceQuestion'] . "</td></tr>";
-					echo "<tr><td>" . $LoginBoxOutput['UnlockSequenceAnswer'] . "</td></tr>";
-				}
-				echo "<tr><td>" . $LoginBoxOutput['LoginButton'] . "</td></tr>";
-			echo $LoginBoxOutput['FormEnd'];
-			echo "</table>";
+	public function ShowBox($Output = false, $RegisterLink = false) {
+		if($this->RequestSecurityInformation) {
+			
 		} else {
-			// Return to caller as an array.
+			$LoginBoxOutput['RegistrationButton'] 	= '';
+			if($RegisterLink !== false) {
+				$LoginBoxOutput['RegistrationButton'] 	= '<a class="btn btn-default LoginSystemGeneral LoginSystemButton" name="LoginBoxRegister" href="'.$RegisterLink.'">'.$this->GetLanguageSpecificText('Button_Register').'</a>';	
+			}
+			// Build the LoginBox.
+			$LoginBoxOutput['FormStart'] 	= '<form method="POST" name="LoginSystemLoginForm" role="form" action="">';
+			$LoginBoxOutput['Username'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="Username">';
+			$LoginBoxOutput['Password'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="Password">';
+			$LoginBoxOutput['LoginButton'] 	= '<input class="btn btn-default LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_Login').'" name="LoginBoxSubmit">';
 
-			return $LoginBoxOutput;
+			$LoginBoxOutput['FormEnd'] 		= '</form>';
+			$LoginBoxOutput['Error']		= $this->GetUserFeedback(false);
+
+			if ($this->AccountLocked) {
+				$LoginBoxOutput['UnlockSequenceQuestion'] 	= $this->UnlockQuestion;
+				$LoginBoxOutput['UnlockSequenceAnswer'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
+			}
+
+			if($Output == false) {
+				// Output it directly via Echo
+				echo $LoginBoxOutput['FormStart'];
+				echo '<div class="panel panel-default">';
+					echo '<div class="panel-body">';			
+						echo "<div>";
+							if(isset($this->LoginSystemMessage[3])) {
+								echo "<span id='helpBlock' class='help-block bg-danger'>" . $this->GetUserFeedback(true) . "</span>";
+								}
+						echo "</div>";
+						echo "<div class='form-group'>";
+							echo "<label for='Username' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText("Input_Username") . "</label><div class='col-sm-10'>" . $LoginBoxOutput['Username'] . "</div>";
+						echo "</div>";
+						echo "<div class='form-group'>";
+							echo "<label for='Password' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText("Input_Password") . "</label><div class='col-sm-10'>" . $LoginBoxOutput['Password'] . "</div>";
+						echo "</div>";
+						if ($this->AccountLocked) {
+							echo "<div class='form-group'>";
+								echo "<label for='Password' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceQuestion') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceQuestion'] . "</div>";
+							echo "</div>";
+							echo "<div class='form-group'>";
+								echo "<label for='Password' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceAnswer') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceAnswer'] . "</div>";
+							echo "</div>";
+						}
+						echo "<div class='form-group'>";
+							echo "<div class='col-sm-offset-2 col-sm-10'>" . $LoginBoxOutput['LoginButton'] . " " . $LoginBoxOutput['RegistrationButton']  . "</div>";
+						echo "</div>";
+					echo "</div>";
+				echo "</div>";			
+				echo $LoginBoxOutput['FormEnd'];
+			} else {
+				// Return to caller as an array.
+				return $LoginBoxOutput;
+			}
 		}
-		
 	}
 
 	/**
@@ -222,14 +247,20 @@ class LoginBox extends LoginSystem {
 				$this->DebugMessage("Level", "[Required] ".$level);
 				return false;
 			}
-
+			
 			
 			// Redirect after all is completered and no errors occured... Perhaps move this to be redirected on login/verification false returns.
 			// This part only executes if we have reached this point after a successfull login.
+			if( (strlen($QueryRow['SecurityQuestion'])<1) and ($Login) ) {
+				$this->RequestSecurityInformation = true;
+				return false;
+			}
+			
 			if($Login) {
 				$this->CustomLoginWork();
 			}
 			return true;
+
 		} else {
 			// if there was no active mysqli connection, throw an debug error and return false.
 			$this->DebugMessage("MySQLi","Not a valid MySQLi connection (".get_resource_type($this->DatabaseHandle).")");
