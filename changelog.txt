@@ -1,0 +1,57 @@
+ * Changelog
+ * Version 4.0.1
+ * Started adding bootstrap js and css
+ * Usage: 
+ * 	<link rel="stylesheet" href="../loginsystem/Dependency/css/bootstrap.min.css" type="text/css" />
+ *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/jquery-1.11.1.min.js"></script>
+ *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/bootstrap.min.js"></script>
+ * Corrected an issue with output from GeneratePasswordFromForm
+ *
+ * Version 4.0
+ * Split the system into multiple class files.
+ * Changelogs will be appearing in the relevant class files.
+ * 
+ * Version 3.43
+ * Started implementing PasswordRecoverybox
+ * Added $WebsiteTitle to hold the name of the website and get/set functions for this.
+ * 
+ * Version 3.42
+ * Added Check-functions for AllowedSymbols, MinimumPasswordLength and MinimumInputLength. These checks
+ * were done in a redundant maner before. Now a more streamlined, clearer, easier to maintain way.
+ * Started implementing GeneratePasswordFromForm($NewPassword)
+ * Added function "EchoArray" that iterates a array and echos it.
+ * 
+ * Version 3.41
+ * Added GET-functions for settings
+ * Added function to import settings from another instans of LoginSystem classes.
+ *
+ * Version 3.4
+ * Added function to add translations from runtime via AddLanguageDefintion.
+ * 
+ * Version 3.3
+ * Added ChangePasswordBox class - Fully implemented.
+ * Made some adjustments to array calls to avoid warnings about undefined index.
+ * Added function to LoginSystem to be able to control LogOutput(true/false)
+ * Corrected an issue with undefinced variable $QueryRow['Locked'] by verifying that HigherSecurity is set.
+ * Implemented GetLanguageSpecificText($Label) that returns the post from the language array based on Label.
+ * 	Falls back on default language if asked language text is not found for the selected language set via SetLanguage.
+ * $AddedTables2 has been removed.
+ * $AddedTables has been converted to an array
+ * Fixed an error that locked VerifySaltLength. Now Working as intended.
+ * Implemented $SaltSetByUser, to not update saltlength if user has defined one.
+ * 
+ * Version 3.2
+ * __Construct removed from childs (LoginBox and RegistrationBox).
+ *
+ * Version 3.1
+ * Modified all debug outputs to also include trigger_error, defaults to e_user_error
+ *
+ * Version 3
+ * Registration is added.
+ *
+ * Version 2.5
+ * Added an abstract class to enable continous development and reuse of variables/functions.
+ *
+ * Version 2 of the LoginBox.
+ * Built with Objectoriented programming in mind.
+ *
