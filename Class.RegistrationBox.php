@@ -56,17 +56,17 @@ class RegistrationBox extends LoginSystem {
 		// Shows the registrationbox
 
 		// Build the RegistrationBox.
-		$RegistrationBoxOutput['FormStart']		 		= '<form method="POST" name="LoginSystemRegistrationForm" action="">';
-		$RegistrationBoxOutput['Username'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="Username">';
-		$RegistrationBoxOutput['Password'] 				= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="Password">';
-		$RegistrationBoxOutput['PasswordRepeat'] 		= '<input class="LoginSystemGeneral LoginSystemInputbox" type="password" name="PasswordRepeat">';
-		$RegistrationBoxOutput['RegistrationButton'] 	= '<input class="LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_Registration').'" name="RegistrationBoxSubmit">';
+		$RegistrationBoxOutput['FormStart']		 		= '<form method="POST" name="LoginSystemRegistrationForm" role="form" action="">';
+		$RegistrationBoxOutput['Username'] 				= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="Username">';
+		$RegistrationBoxOutput['Password'] 				= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="Password">';
+		$RegistrationBoxOutput['PasswordRepeat'] 		= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="password" name="PasswordRepeat">';
+		$RegistrationBoxOutput['RegistrationButton'] 	= '<input class="btn btn-default LoginSystemGeneral LoginSystemButton" type="submit" value="'.$this->GetLanguageSpecificText('Button_Registration').'" name="RegistrationBoxSubmit">';
 		$RegistrationBoxOutput['FormEnd'] 				= '</form>';
 		$RegistrationBoxOutput['Error']					= $this->GetUserFeedback(false);
 
 		if ($this->AddedSecurity) {
-			$RegistrationBoxOutput['UnlockSequenceQuestion'] 	= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceQuestion">';
-			$RegistrationBoxOutput['UnlockSequenceAnswer'] 		= '<input class="LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
+			$RegistrationBoxOutput['UnlockSequenceQuestion'] 	= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceQuestion">';
+			$RegistrationBoxOutput['UnlockSequenceAnswer'] 		= '<input class="form-control LoginSystemGeneral LoginSystemInputbox" type="text" name="UnlockSequenceAnswer">';
 		}
 
 		if($Output == false) {
@@ -74,19 +74,34 @@ class RegistrationBox extends LoginSystem {
 
 			
 			echo $RegistrationBoxOutput['FormStart'];
-			echo "<table>";
-				if(isset($this->LoginSystemMessage[3])) {
-					echo "<tr><td colspan='2'><p  class='bg-danger'>".$this->GetUserFeedback(true). "</p></td></tr>";
-				}
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_Username')."</td><td>".$RegistrationBoxOutput['Username'] . "</td></tr>";
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_Password') ."</td><td>". $RegistrationBoxOutput['Password'] . "</td></tr>";
-				echo "<tr><td>".$this->GetLanguageSpecificText('Input_PasswordRepeat') ."</td><td>". $RegistrationBoxOutput['PasswordRepeat'] . "</td></tr>";
+			echo '<div class="panel panel-default">';
+			echo '<div class="panel-body">';	
+				echo "<div>";
+					if(isset($this->LoginSystemMessage[3])) {
+						echo "<span id='helpBlock' class='help-block bg-danger'>" . $this->GetUserFeedback(true) . "</span>";
+					}
+				echo "</div>";
+				echo "<div class='form-group'>";
+					echo "<label for='Username' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_Username')."</label><div class='col-sm-10'>".$RegistrationBoxOutput['Username'] . "</div>";
+				echo "</div>";
+				echo "<div class='form-group'>";
+					echo "<label for='Username' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_Password') ."</label><div class='col-sm-10'>". $RegistrationBoxOutput['Password'] . "</div>";
+				echo "</div>";
+				echo "<div class='form-group'>";
+					echo "<label for='Username' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('Input_PasswordRepeat') ."</label><div class='col-sm-10'>". $RegistrationBoxOutput['PasswordRepeat'] . "</div>";
+				echo "</div>";
 				if ($this->AddedSecurity) {
-					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceQuestion') ."</td><td>". $RegistrationBoxOutput['UnlockSequenceQuestion'] . "</td></tr>";
-					echo "<tr><td>".$this->GetLanguageSpecificText('UnlockSequenceAnswer') ."</td><td>". $RegistrationBoxOutput['UnlockSequenceAnswer'] . "</td></tr>";
+					echo "<div class='form-group'>";
+						echo "<label for='Username' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('UnlockSequenceQuestion') ."</label><div class='col-sm-10'>". $RegistrationBoxOutput['UnlockSequenceQuestion'] . "</div>";
+					echo "</div>";
+					echo "<div class='form-group'>";
+						echo "<label for='Username' class='col-sm-2 control-label'>".$this->GetLanguageSpecificText('UnlockSequenceAnswer') ."</label><div class='col-sm-10'>". $RegistrationBoxOutput['UnlockSequenceAnswer'] . "</div>";
+					echo "</div>";
 				}
-				echo "<tr><td colspan='2'>".$RegistrationBoxOutput['RegistrationButton'] . "</td></tr>";
-			echo "</table>";
+				echo "<div class='form-group'>";
+					echo "<div class='col-sm-offset-2 col-sm-10'>".$RegistrationBoxOutput['RegistrationButton'] . "</div>";
+				echo "</div>";
+			echo "</div>";
 			echo $RegistrationBoxOutput['FormEnd'];
 		
 		} else {

@@ -1,6 +1,6 @@
  * Changelog
  * Version 4.0.1
- * Started adding bootstrap js and css
+ * Bootstrap implemented
  * Usage: 
  * 	<link rel="stylesheet" href="../loginsystem/Dependency/css/bootstrap.min.css" type="text/css" />
  *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/jquery-1.11.1.min.js"></script>

@@ -95,10 +95,10 @@ class LoginBox extends LoginSystem {
 						echo "</div>";
 						if ($this->AccountLocked) {
 							echo "<div class='form-group'>";
-								echo "<label for='Password' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceQuestion') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceQuestion'] . "</div>";
+								echo "<label for='UnlockSequenceQuestion' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceQuestion') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceQuestion'] . "</div>";
 							echo "</div>";
 							echo "<div class='form-group'>";
-								echo "<label for='Password' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceAnswer') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceAnswer'] . "</div>";
+								echo "<label for='UnlockSequenceAnswer' class='col-sm-2 control-label'>" . $this->GetLanguageSpecificText('UnlockSequenceAnswer') . "</label><div class='col-sm-10'>" . $LoginBoxOutput['UnlockSequenceAnswer'] . "</div>";
 							echo "</div>";
 						}
 						echo "<div class='form-group'>";
