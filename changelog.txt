@@ -7,6 +7,8 @@
  *	<script type="text/javascript" src="../loginsystem/Dependency/jscript/bootstrap.min.js"></script>
  * Corrected an issue with output from GeneratePasswordFromForm
  *
+ * Added GetAddedSecurity() to fix import between classes. Now works as intended.
+ *
  * Version 4.0
  * Split the system into multiple class files.
  * Changelogs will be appearing in the relevant class files.

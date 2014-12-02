@@ -240,6 +240,9 @@ abstract class LoginSystem {
 			$this->SetSessionUserID($ParentClass->GetSessionUserID());
 			$this->SetMinimumInputFieldLength($ParentClass->GetMinimumInputFieldLength());
 			$this->SetMinimumPasswordLength($ParentClass->GetMinimumPasswordLength());
+			if($ParentClass->GetAddedSecurity()) {
+				$this->HigherSecurity();
+			}
 			$this->DebugMessage("Classdefinition","Loaded settings from ParentClass.");
 		}
 	}
@@ -322,6 +325,15 @@ abstract class LoginSystem {
 		
 		/* Generate the new encrypted password and return it. */
 		return $this->GeneratePassword($NewPassword);
+	}
+	
+	/**
+	 * Returns the status of AddedSecurity. This is used only for importing to other classes.
+	 * @access public
+	 * @since Version 4.0.1
+	 */
+	public function GetAddedSecurity() {
+		return $this->AddedSecurity;
 	}
 	
 	/**
